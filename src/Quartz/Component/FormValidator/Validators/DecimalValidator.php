@@ -34,9 +34,9 @@ class DecimalValidator extends RegexValidator
         if (is_string($value))
         {
             $regex = '#^(?P<sign>\-?)[0]*(?P<int>[1-9][0-9]*|0+)(\.(?P<decimal>[0-9]*))?$#';
-            if (!preg_match($regex, $value, $m))
+            if (!preg_match($regex, $value))
             {
-                throw new \InvalidArgumentException('you must set a valid number');
+                return new \Quartz\Component\FormValidator\NotSetField($value);
             }
             settype($value, 'double');
         }
@@ -46,7 +46,7 @@ class DecimalValidator extends RegexValidator
             settype($value, 'double');
             return $value;
         }
-        throw new \InvalidArgumentException('you must set a valid number');
+        return new \Quartz\Component\FormValidator\NotSetField($value);
     }
 
     public function checkValue($field, $value)

@@ -41,17 +41,17 @@ class DecimalValidator extends ValidatorTester
             array(new Validator(5,2), '-123456' , -123456.00, true , null),
             array(new Validator(5,2), '123.456' , 123.456   , true , null),
             //-
-            array(new Validator(5,2), array()   , array()   , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), array(1)  , array(1)  , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), false     , false     , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), true      , true      , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), ''        , ''        , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), '     '   , '     '   , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), 'null'    , 'null'    , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), '#null#'  , '#null#'  , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), 'false'   , 'false'   , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), 'true'    , 'true'    , false , new \InvalidArgumentException("you must set a valid number")),
-            array(new Validator(5,2), 'foo'     , 'foo'     , false , new \InvalidArgumentException("you must set a valid number")),
+            array(new Validator(5,2), array()   , array()   , false , null),
+            array(new Validator(5,2), array(1)  , array(1)  , false , null),
+            array(new Validator(5,2), false     , false     , false , null),
+            array(new Validator(5,2), true      , true      , false , null),
+            array(new Validator(5,2), ''        , ''        , false , null),
+            array(new Validator(5,2), '     '   , '     '   , false , null),
+            array(new Validator(5,2), 'null'    , 'null'    , false , null),
+            array(new Validator(5,2), '#null#'  , '#null#'  , false , null),
+            array(new Validator(5,2), 'false'   , 'false'   , false , null),
+            array(new Validator(5,2), 'true'    , 'true'    , false , null),
+            array(new Validator(5,2), 'foo'     , 'foo'     , false , null),
             
         );
 

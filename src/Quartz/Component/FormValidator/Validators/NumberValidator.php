@@ -74,7 +74,7 @@ class NumberValidator extends RegexValidator
         {
             if (!preg_match($this->getRegex(), "$value"))
             {
-                throw new \InvalidArgumentException('you must set a valid ' . $this->realType);
+                return new \Quartz\Component\FormValidator\NotSetField($value);
             }
 
             settype($value, $this->type);
@@ -85,7 +85,7 @@ class NumberValidator extends RegexValidator
             settype($value, $this->type);
             return $value;
         }
-        throw new \InvalidArgumentException('you must set a valid ' . $this->realType);
+        return new \Quartz\Component\FormValidator\NotSetField($value);
     }
 
     public function checkValue($field, $value)

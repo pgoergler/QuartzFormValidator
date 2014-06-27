@@ -34,12 +34,11 @@ class EmailValidator extends ValidatorTester
             array(new Validator(), 'false'          , 'false'           , true  , null),
             array(new Validator(), 'true'           , 'true'            , true  , null),
             array(new Validator(), 'foo'            , 'foo'             , true  , null),
-            
             //-
-            array(new Validator(), array()          , array()           , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), array(1)         , array(1)          , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), false            , false             , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), true             , true              , false , new \InvalidArgumentException("you must set a valid email")),
+            array(new Validator(), array()          , array()           , false , null),
+            array(new Validator(), array(1)         , array(1)          , false , null),
+            array(new Validator(), false            , false             , false , null),
+            array(new Validator(), true             , true              , false , null),
             
         );
 
@@ -55,10 +54,10 @@ class EmailValidator extends ValidatorTester
             array(new Validator(), 'foo@foo.co.uk'  , 'foo@foo.co.uk'   , true  , null),
             array(new Validator(), ''               , ''                , true  , null),
             //-
-            array(new Validator(), array()          , array()           , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), array(1)         , array(1)          , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), false            , false             , false , new \InvalidArgumentException("you must set a valid email")),
-            array(new Validator(), true             , true              , false , new \InvalidArgumentException("you must set a valid email")),
+            array(new Validator(), array()          , array()           , false , null),
+            array(new Validator(), array(1)         , array(1)          , false , null),
+            array(new Validator(), false            , false             , false , null),
+            array(new Validator(), true             , true              , false , null),
             array(new Validator(), '     '          , '     '           , false , new ErrorException('test-field', '', "you must set a valid email")),
             array(new Validator(), 'null'           , 'null'            , false , new ErrorException('test-field', '', "you must set a valid email")),
             array(new Validator(), '#null#'         , '#null#'          , false , new ErrorException('test-field', '', "you must set a valid email")),

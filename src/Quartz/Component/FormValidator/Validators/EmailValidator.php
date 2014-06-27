@@ -15,17 +15,6 @@ class EmailValidator extends RegexValidator
         parent::__construct('^((.*?@.*?(\.[a-z]+)+)?)$', $tags);
     }
     
-    public function sanitizeValue($value)
-    {
-        try
-        {
-            return parent::sanitizeValue($value);
-        } catch (\InvalidArgumentException $e)
-        {
-            throw new \InvalidArgumentException('you must set a valid email', $e->getCode(), $e);
-        }
-    }
-
     public function checkValue($field, $value)
     {
         try

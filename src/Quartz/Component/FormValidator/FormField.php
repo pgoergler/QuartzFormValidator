@@ -153,6 +153,10 @@ class FormField
         {
             foreach ($this->validators as $validator)
             {
+                if( $value instanceof NotSetField ) {
+                    throw new Exceptions\StopFieldValidationException();
+                }
+                
                 try
                 {
                     $value = $validator->validate($this->getName(), $value);

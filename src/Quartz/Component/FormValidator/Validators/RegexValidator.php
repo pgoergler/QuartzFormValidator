@@ -30,7 +30,7 @@ class RegexValidator extends AbstractFormFieldValidator
         {
             return $value;
         }
-        throw new \InvalidArgumentException("you must set a valid value");
+        return new \Quartz\Component\FormValidator\NotSetField($value);
     }
 
     public function getRegex()
@@ -43,6 +43,11 @@ class RegexValidator extends AbstractFormFieldValidator
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {
             return $value;
+        }
+        
+        if( !is_null($value) && !is_string($value) )
+        {
+            throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value, "you must set a valid value");
         }
         
         $regex = $this->getRegex();
