@@ -168,14 +168,19 @@ class FormField
                     }
                 } catch (Exceptions\ErrorException $ex)
                 {
-                    $value = $validator->sanitizeValue($value);
                     $hasError = true;
-                    $this->setValue($value instanceof NotSetField ? $value : new NotSetField($value));
+                    $this->setValue(new NotSetField($value));
                     $this->setStatus('error', $ex->getMessage());
                     if ($ex->shouldStopValidation())
                     {
                         throw new Exceptions\StopFieldValidationException();
                     }
+                } catch( \InvalidArgumentException $e)
+                {
+                    $hasError = true;
+                    $this->setValue(new NotSetField($value));
+                    $this->setStatus('error', $e->getMessage());
+                    throw new Exceptions\StopFieldValidationException();
                 }
             }
         } catch (Exceptions\StopFieldValidationException $ex)

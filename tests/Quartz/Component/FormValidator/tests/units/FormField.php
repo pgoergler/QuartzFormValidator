@@ -291,6 +291,37 @@ class FormField extends Tester
                     ->withArguments('test-field', 'foo')
                     ->once()
         ;
+        
+        $controller5 = new \atoum\mock\controller();
+        $controller5->sanitizeValue = function($value) {
+            throw new \InvalidArgumentException('error in sanitize !');
+        };
+        $controller5->checkValue = function($fieldname, $value) {
+            throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($fieldname, $value, 'error !');
+        };
+        
+        $validator = new \Mocked\ImplValidator(false, $controller5);
+        $this->assert(__FUNCTION__)
+            ->if($object = new \Quartz\Component\FormValidator\FormField('test-field', array($validator), 123))
+            ->and($ret = $object->validate('foo'))
+            ->then
+                ->boolean($ret)->isFalse()
+                ->boolean($object->hasFeedback())->isTrue()
+                ->boolean($object->hasSuccess())->isFalse()
+                ->string($object->getValue())->isEqualTo('foo')
+                ->string($object->getStatus())->isEqualTo('error')
+                ->array($object->getErrors())->hasSize(1)
+                ->array($object->getErrors())->contains('error in sanitize !')
+                ->mock($validator)->call('sanitizeValue')
+                    ->withArguments('foo')
+                    ->twice()
+                ->mock($validator)->call('checkValue')
+                    ->withArguments('test-field', 'foo')
+                    ->never()
+                ->mock($validator)->call('validate')
+                    ->withArguments('test-field', 'foo')
+                    ->once()
+        ;
     }
 
 }
