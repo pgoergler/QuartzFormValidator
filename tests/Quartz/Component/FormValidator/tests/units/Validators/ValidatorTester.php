@@ -12,11 +12,9 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
 
     public abstract function createValidator();
 
-    public function getValidator($isMandatory = false)
+    public function getValidator()
     {
-        $validator = $this->createValidator();
-        $validator->setMandatory($isMandatory);
-        return $validator;
+        return $this->createValidator();
     }
 
     public abstract function sanatizedDataProvider();
@@ -228,63 +226,7 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
                         ->hasMessage($exception->getMessage())
                 ;
             }
-            else
-            {
-                if( ! $exception )
-                {
-                    $exception = new \Quartz\Component\FormValidator\Exceptions\ErrorException('test-field', '', 'you must set a value');
-                }
-                $this->assert('Test Validator ' . $functionName . ' mandatory')
-                        ->if($validator->setMandatory(true))
-                        ->exception(function() use($validator, $fieldname, $value) {
-                            $validator->validate($fieldname, $value);
-                        })
-                        ->isInstanceOf(get_class($exception))
-                        ->hasMessage($exception->getMessage())
-                ;
-            }
         }
-    }
-
-    public function testMandatory()
-    {
-        $this->assert('Test isMandatory')
-                ->if($v1 = $this->createValidator())
-                ->and($v2 = $this->getValidator(false))
-                ->and($v3 = $this->getValidator(true))
-                ->and($v4 = $this->getValidator(1))
-                ->and($v5 = $this->getValidator(null))
-                ->then
-                ->boolean($v1->isMandatory())->isFalse()
-                ->boolean($v2->isMandatory())->isFalse()
-                ->boolean($v3->isMandatory())->isTrue()
-                ->boolean($v4->isMandatory())->isTrue()
-                ->boolean($v5->isMandatory())->isFalse()
-                ->assert('Test setMandatory')
-                ->if($v1 = $this->createValidator())
-                ->then
-                ->boolean($v1->isMandatory())->isFalse()
-                ->if($v1 = $this->createValidator())
-                ->and($v1->setMandatory(true))
-                ->then
-                ->boolean($v1->isMandatory())->isTrue()
-                ->if($v1 = $this->createValidator())
-                ->and($v1->setMandatory(0))
-                ->then
-                ->boolean($v1->isMandatory())->isFalse()
-                ->if($v1 = $this->createValidator())
-                ->and($v1->setMandatory(1))
-                ->then
-                ->boolean($v1->isMandatory())->isTrue()
-                ->if($v1 = $this->createValidator())
-                ->and($v1->setMandatory(false))
-                ->then
-                ->boolean($v1->isMandatory())->isFalse()
-                ->if($v1 = $this->createValidator())
-                ->and($v1->setMandatory(null))
-                ->then
-                ->boolean($v1->isMandatory())->isFalse()
-        ;
     }
 
 }

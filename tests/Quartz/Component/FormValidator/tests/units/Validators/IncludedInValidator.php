@@ -73,7 +73,7 @@ class IncludedInValidator extends ValidatorTester
             
             array(new Validator(array(5,2,'foo', 1.0, null))      ,array(4)                   , array(4)                   , false , new ErrorException('test-field', '', "[{0}] is not included in [{1}]")),
             array(new Validator(array(5,2,'foo', 1.0, null))      ,array(4, 'foo')            , array(4, 'foo')            , false , new ErrorException('test-field', '', "[{0}] is not included in [{1}]")),
-            array(new Validator(array(5,2,'foo', 1.0, null))      , null                 , null                  , false , new ErrorException('test-field', '', "{0} is not an array")),
+            array(new Validator(array(5,2,'foo', 1.0, null))      , null                 , null                  , false , null),
             array(new Validator(array(5,2,'foo', 1.0, null))      , false                , false                 , false , new ErrorException('test-field', '', "{0} is not an array")),
             array(new Validator(array(5,2,'foo', 1.0, null))      , true                 , true                  , false , new ErrorException('test-field', '', "{0} is not an array")),
             array(new Validator(array(5,2,'foo', 1.0, null))      , ''                   , null                  , false , new ErrorException('test-field', '', "{0} is not an array")),
@@ -98,7 +98,7 @@ class IncludedInValidator extends ValidatorTester
             array(new Validator(array(5,2,'foo', 1.0, null), true),array(1)                   , array(1)                   , false , new ErrorException('test-field', '', "[{0}] is not included in [{1}]")),
             array(new Validator(array(5,2,'foo', 1.0, null), true),array(4)                   , array(4)                   , false , new ErrorException('test-field', '', "[{0}] is not included in [{1}]")),
             array(new Validator(array(5,2,'foo', 1.0, null), true),array(4, 'foo')            , array(4, 'foo')            , false , new ErrorException('test-field', '', "[{0}] is not included in [{1}]")),
-            array(new Validator(array(5,2,'foo', 1.0, null), true), null                 , null                  , false , new ErrorException('test-field', '', "{0} is not an array")),
+            array(new Validator(array(5,2,'foo', 1.0, null), true), null                 , null                  , false , null),
             array(new Validator(array(5,2,'foo', 1.0, null), true), false                , false                 , false , new ErrorException('test-field', '', "{0} is not an array")),
             array(new Validator(array(5,2,'foo', 1.0, null), true), true                 , true                  , false , new ErrorException('test-field', '', "{0} is not an array")),
             array(new Validator(array(5,2,'foo', 1.0, null), true), ''                   , null                  , false , new ErrorException('test-field', '', "{0} is not an array")),

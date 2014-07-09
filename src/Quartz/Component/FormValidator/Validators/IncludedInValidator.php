@@ -19,7 +19,7 @@ class IncludedInValidator extends EnumValidator
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {
-            if( !is_array($value->getRawValue()) )
+            if( !is_null($value->getRawValue()) && !is_array($value->getRawValue()) )
             {
                 throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value, '{0} is not an array', array('{0}' => $value));
             }

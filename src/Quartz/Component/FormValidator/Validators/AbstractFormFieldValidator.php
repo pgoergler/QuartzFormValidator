@@ -2,8 +2,6 @@
 
 namespace Quartz\Component\FormValidator\Validators;
 
-use Quartz\Component\FormValidator\NotSetField;
-
 /**
  * Description of AbstractFormFieldValidator
  *
@@ -12,27 +10,9 @@ use Quartz\Component\FormValidator\NotSetField;
 abstract class AbstractFormFieldValidator
 {
 
-    protected $isMandatory;
-
-    public function __construct($isMandatory = false)
+    public function __construct()
     {
-        $this->isMandatory = $isMandatory ? true : false; // to force boolean
-    }
-
-    public function isMandatory()
-    {
-        return $this->isMandatory;
-    }
-
-    /**
-     * 
-     * @param type $boolean
-     * @return \Quartz\Component\FormValidator\FormFieldValidator
-     */
-    public function setMandatory($boolean)
-    {
-        $this->isMandatory = $boolean ? true : false; // to force boolean
-        return $this;
+        
     }
 
     public function sanitizeValue($value)
@@ -42,23 +22,7 @@ abstract class AbstractFormFieldValidator
 
     public function validate($field, $value)
     {
-        $sanitized = $this->sanitizeValue($value);
-        if ($sanitized instanceof NotSetField)
-        {
-            if ($this->isMandatory())
-            {
-                throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value, 'you must set a value');
-            }
-        }
-        $result = $this->checkValue($field, $sanitized);
-        if ($result instanceof NotSetField)
-        {
-            if ($this->isMandatory())
-            {
-                throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value, 'you must set a value');
-            }
-        }
-        return $result;
+        return $this->checkValue($field, $this->sanitizeValue($value));
     }
 
     public abstract function checkValue($field, $value);

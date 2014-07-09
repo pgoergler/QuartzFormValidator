@@ -56,6 +56,7 @@ class FormValidator
             return $this;
         }
 
+        $defaultValue = new NotSetField($defaultValue);
         if (func_num_args() < 3)
         {
             if (!is_null($this->table))
@@ -75,14 +76,11 @@ class FormValidator
 
         if ($isMandatory)
         {
-            array_unshift($validator, new Validators\NotNullValidator());
-            array_walk($validator, function($v) {
-                $v->setMandatory(true);
-            });
+            array_push($validator, new Validators\MandatoryValidator());
         }
 
 
-        $field = new FormField($fieldName, $validator, new NotSetField($defaultValue));
+        $field = new FormField($fieldName, $validator, $defaultValue);
         $this->fields[$fieldName] = $field;
         return $this;
     }
@@ -366,7 +364,7 @@ class FormValidator
 
         foreach ($this->fields as $fieldName => $field)
         {
-            $value = array_key_exists($fieldName, $form) ? $form[$fieldName] : $field->getValue();
+            $value = array_key_exists($fieldName, $form) ? $form[$fieldName] : $field->getDefaultValue();
             $field->validate($value);
             if ($field->hasError())
             {
