@@ -252,7 +252,8 @@ class FormValidator
             return null;
         }
 
-        return $this->fields[$fieldName]->getValue();
+        $value = $this->fields[$fieldName]->getValue();
+        return $value instanceof NotSetField ? $value->getRawValue() : $value;
     }
 
     /**

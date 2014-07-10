@@ -110,12 +110,12 @@ class FormField
 
     public function getDefaultValue()
     {
-        return $this->defaultValue instanceof NotSetField ? $this->defaultValue->getRawValue() : $this->defaultValue;
+        return $this->defaultValue;
     }
     
     public function getValue()
     {
-        return $this->value instanceof NotSetField ? $this->value->getRawValue() : $this->value;
+        return $this->value;
     }
 
     public function setValue($value)
