@@ -53,7 +53,7 @@ class DecimalValidator extends RegexValidator
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {
-            throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value->getRawValue(), 'you must set a valid number');
+            return $value;
         }
 
         if (is_null($value))
