@@ -71,17 +71,17 @@ class StringValidator extends ValidatorTester
             array(new Validator(), 1234         , 1234      , false, null),
             //-
             //-
-            array(new Validator(1)      , array()     , array()   , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1)      , array(1)    , array(1)  , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1)      , false       , false     , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1)      , true        , true      , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1)      , 1234        , 1234      , false, new ErrorException('test-field', '', "you must set a valid value")),
-            //-
-            array(new Validator(1, 3)   , array()     , array()   , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1, 3)   , array(1)    , array(1)  , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1, 3)   , false       , false     , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1, 3)   , true        , true      , false, new ErrorException('test-field', '', "you must set a valid value")),
-            array(new Validator(1, 3)   , 1234        , 1234      , false, new ErrorException('test-field', '', "you must set a valid value")),
+            array(new Validator(1)      , array()     , array()   , false, null),
+            array(new Validator(1)      , array(1)    , array(1)  , false, null),
+            array(new Validator(1)      , false       , false     , false, null),
+            array(new Validator(1)      , true        , true      , false, null),
+            array(new Validator(1)      , 1234        , 1234      , false, null),
+            //-null
+            array(new Validator(1, 3)   , array()     , array()   , false, null),
+            array(new Validator(1, 3)   , array(1)    , array(1)  , false, null),
+            array(new Validator(1, 3)   , false       , false     , false, null),
+            array(new Validator(1, 3)   , true        , true      , false, null),
+            array(new Validator(1, 3)   , 1234        , 1234      , false, null),
             array(new Validator(), "foo\nbar"         , "foo\nbar", false, new ErrorException('test-field', '', "you must set a valid value")),
             array(new Validator(), "\n"               , ''        , true, null),
             array(new Validator(1), "\n"              , "\n"      , false, new ErrorException('test-field', '', "you must set a valid value")),

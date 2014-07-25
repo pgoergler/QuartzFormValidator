@@ -34,11 +34,7 @@ class LengthValidator extends RegexValidator
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {
-            if( $this->minLength === null || $this->minLength === 0)
-            {
-                return $value;
-            }
-            throw new \Quartz\Component\FormValidator\Exceptions\ErrorException($field, $value, 'you must set a valid value');
+            return $value;
         }
 
         try

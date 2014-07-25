@@ -56,7 +56,6 @@ class FormValidator
             return $this;
         }
 
-        $defaultValue = new NotSetField($defaultValue);
         if (func_num_args() < 3)
         {
             if (!is_null($this->table))
@@ -394,7 +393,7 @@ class FormValidator
         {
             $getter = $entity->getGetter($fieldName);
             $value = $entity->$getter();
-            $field->initialize($value);
+            $field->setValue($value);
         }
         return $this;
     }
