@@ -20,10 +20,10 @@ abstract class AbstractFormFieldValidator
         return $value;
     }
 
-    public function validate($field, $value)
+    public function validate(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         return $this->checkValue($field, $this->sanitizeValue($value));
     }
 
-    public abstract function checkValue($field, $value);
+    public abstract function checkValue(\Quartz\Component\FormValidator\FormField $field, $value);
 }

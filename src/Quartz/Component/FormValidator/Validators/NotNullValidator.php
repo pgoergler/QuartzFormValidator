@@ -20,7 +20,7 @@ class NotNullValidator extends AbstractFormFieldValidator
         return $value;
     }
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {

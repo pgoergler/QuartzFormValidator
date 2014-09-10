@@ -19,7 +19,13 @@ class InvalidFieldValueException extends \InvalidArgumentException
         parent::__construct($message, $code, $previous);
         $this->field = $field;
         $this->value = $value;
-        $this->context = $context;
+        $this->context = array();
+        foreach( $context as $k => $v) {
+            if( is_numeric($k) ) {
+                $k = "{" . $k ."}";
+            }
+            $this->context[$k] = $v;
+        }
     }
 
     public function getField()
@@ -41,5 +47,10 @@ class InvalidFieldValueException extends \InvalidArgumentException
     {
         return false;
     }
+    
+    /*public function __toString()
+    {
+        return $this->getMessage();
+    }*/
 
 }

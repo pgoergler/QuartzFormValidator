@@ -38,7 +38,7 @@ class RegexValidator extends AbstractFormFieldValidator
         return '#' . str_replace('#', '\\#', $this->regex) . '#' . $this->tags;
     }
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {

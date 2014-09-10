@@ -99,13 +99,15 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
         $functionName = $this->app['logger.interpolate'](__FUNCTION__ . '($v={0}, $exp={1}, $set={2})', array($value, $expectedValue, $isset));
 
         $this->assert('Test checkValue');
+        
+        $field = new \Quartz\Component\FormValidator\FormField('test-field', array());
 
         if ($exception)
         {
             $this->assert('Test Validator ' . $functionName . ' has exception')
-                    ->exception(function() use($validator, $value) {
+                    ->exception(function() use($validator, &$field, $value) {
                         $sanatized = $validator->sanitizeValue($value);
-                        $validator->checkValue('test-field', $sanatized);
+                        $validator->checkValue($field, $sanatized);
                     })
                     ->isInstanceOf(get_class($exception))
                     ->hasMessage($exception->getMessage())
@@ -113,7 +115,7 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
         } else
         {
             $this->if($sanatized = $validator->sanitizeValue($value))
-                    and($checked = $validator->checkValue('fieldname', $sanatized));
+                    and($checked = $validator->checkValue($field, $sanatized));
             
             if (!$isset)
             {
@@ -164,20 +166,21 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
     public function testValidate($validator, $value, $expectedValue, $isset, $exception)
     {
         $fieldname = 'test-field-name';
-
+        $field = new \Quartz\Component\FormValidator\FormField($fieldname, array());
+        
         $functionName = $this->app['logger.interpolate'](__FUNCTION__ . '($v={1}, $exp={2}, $i={3})', array($fieldname, $value, $expectedValue, $isset));
         if ($exception instanceof \Exception)
         {
             $this->assert('Test Validator ' . $functionName . ' has exception')
-                    ->exception(function() use($validator, $value) {
-                        $validator->validate('test-field', $value);
+                    ->exception(function() use($validator, $field, $value) {
+                        $validator->validate($field, $value);
                     })
                     ->isInstanceOf(get_class($exception))
                     ->hasMessage($exception->getMessage())
             ;
         } else
         {
-            $validated = $validator->validate($fieldname, $value);
+            $validated = $validator->validate($field, $value);
             if (!$isset)
             {
                 $this->assert('Test Validator ' . $functionName . ' must be not set')
@@ -219,8 +222,8 @@ abstract class ValidatorTester extends \Quartz\Component\FormValidator\tests\uni
             if ($exception instanceof \InvalidArgumentException)
             {
                 $this->assert('Test Validator ' . $functionName . ' mandatory \InvalidArgumentException')
-                        ->exception(function() use($validator, $value) {
-                            $validator->validate('test-field', $value);
+                        ->exception(function() use($validator, $field, $value) {
+                            $validator->validate($field, $value);
                         })
                         ->isInstanceOf(get_class($exception))
                         ->hasMessage($exception->getMessage())

@@ -88,7 +88,7 @@ class NumberValidator extends RegexValidator
         return new \Quartz\Component\FormValidator\NotSetField($value);
     }
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {

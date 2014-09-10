@@ -391,9 +391,12 @@ class FormValidator
     {
         foreach ($this->fields as $fieldName => $field)
         {
-            $getter = $entity->getGetter($fieldName);
-            $value = $entity->$getter();
-            $field->setValue($value);
+            if( $entity->has($fieldName) )
+            {
+                $getter = $entity->getGetter($fieldName);
+                $value = $entity->$getter();
+                $field->setValue($value);
+            }
         }
         return $this;
     }
@@ -412,10 +415,13 @@ class FormValidator
             {
                 try
                 {
-                    $getter = $object->getGetter($fieldName);
-                    $setter = $object->getSetter($fieldName);
-                    $object->$setter($field->getValue());
-                    $field->setValue($object->$getter());
+                    if( $object->has($fieldName) )
+                    {
+                        $getter = $object->getGetter($fieldName);
+                        $setter = $object->getSetter($fieldName);
+                        $object->$setter($field->getValue());
+                        $field->setValue($object->$getter());
+                    }
                 } catch (\Exception $e)
                 {
                     $this->setFieldStatus($fieldName, 'error', $e->getMessage());

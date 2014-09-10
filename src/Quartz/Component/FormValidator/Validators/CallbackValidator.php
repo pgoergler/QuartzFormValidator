@@ -38,7 +38,7 @@ class CallbackValidator extends AbstractFormFieldValidator
         return parent::sanitizeValue($value);
     }
     
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if( $this->checker )
         {

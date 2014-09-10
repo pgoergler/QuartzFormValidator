@@ -15,7 +15,7 @@ class EmailValidator extends RegexValidator
         parent::__construct('^((.*?@.*?(\.[a-z]+)+)?)$', $tags);
     }
     
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         try
         {

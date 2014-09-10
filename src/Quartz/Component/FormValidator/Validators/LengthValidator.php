@@ -30,7 +30,7 @@ class LengthValidator extends RegexValidator
         parent::__construct(sprintf('^(.{%s,%s})$', $this->minLength, $this->maxLength), $tags);
     }
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {

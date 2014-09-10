@@ -20,7 +20,7 @@ class TrimAsNotSetValidator extends AbstractFormFieldValidator
         return $value;
     }
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         return $value;
     }

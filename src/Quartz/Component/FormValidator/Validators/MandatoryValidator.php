@@ -10,7 +10,7 @@ namespace Quartz\Component\FormValidator\Validators;
 class MandatoryValidator extends AbstractFormFieldValidator
 {
 
-    public function checkValue($field, $value)
+    public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
         if ($value instanceof \Quartz\Component\FormValidator\NotSetField)
         {

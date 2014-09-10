@@ -19,6 +19,7 @@ class CallbackValidator extends \Quartz\Component\FormValidator\tests\units\Test
     {
         $controller = new \atoum\mock\controller();
         $callbackMock = new \mock\Callbacker($controller);
+        $field = new \Quartz\Component\FormValidator\FormField('test-field', array());
         
         $callbackMock->getMockController()->sanitizer = function($value) {
             return $value;
@@ -38,7 +39,7 @@ class CallbackValidator extends \Quartz\Component\FormValidator\tests\units\Test
         
         
         $this->assert('Test Validator' . __FUNCTION__)
-                ->if($res = $callbackMock->checker('field', 'foo'))
+                ->if($res = $callbackMock->checker($field, 'foo'))
                 ->then
                     ->string($res)->isEqualTo('foo')
                 ->if($res = $callbackMock->sanitizer('value'))
@@ -51,10 +52,10 @@ class CallbackValidator extends \Quartz\Component\FormValidator\tests\units\Test
                     ->mock($callbackMock)->call('sanitizer')
                         ->withArguments('foo')
                         ->once()
-                ->if($validator->validate('field', 'value'))
+                ->if($validator->validate($field, 'value'))
                 ->then
                     ->mock($callbackMock)->call('checker')
-                        ->withArguments('field', 'value')
+                        ->withArguments($field, 'value')
                         ->once()
         ;
     }

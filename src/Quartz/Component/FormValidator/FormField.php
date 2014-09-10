@@ -74,19 +74,29 @@ class FormField
         return $this->status;
     }
 
-    public function setStatus($status, $message = null)
+    public function setStatus($status, $message = null, $context = array())
     {
+        $ctx = array();
+        foreach( $context as $k => $v) {
+            if( is_numeric($k) ) {
+                $k = "{" . $k ."}";
+            }
+            $ctx[$k] = $v;
+        }
+        
         if ($status === 'error')
         {
             $this->status = $status;
-            $this->errors[] = \trim($message) ? : false;
+            //$this->errors[] = \trim($message) ? : false;
+            $this->errors[] = array($message, $ctx);
         } elseif ($status === 'warning')
         {
             if ($this->getStatus() === 'success')
             {
                 $this->status = $status;
             }
-            $this->warnings[] = \trim($message) ? : false;
+            //$this->warnings[] = \trim($message) ? : false;
+            $this->warnings[] = array($message, $ctx);
         }
         return $this;
     }
@@ -143,6 +153,40 @@ class FormField
                 }) : array();
     }
 
+    public function validateWith($value, Validators\AbstractFormFieldValidator $validator)
+    {
+        try
+        {
+            $value = $validator->validate($this, $value);
+            $this->setValue($value);
+            $this->setStatus('success');
+        } catch (Exceptions\WarningException $ex)
+        {
+            $this->setValue($value);
+            $this->setStatus('warning', $ex->getMessage());
+            if ($ex->shouldStopValidation())
+            {
+                throw new Exceptions\StopFieldValidationException();
+            }
+        } catch (Exceptions\ErrorException $ex)
+        {
+            $hasError = true;
+            $this->setValue(new NotSetField($value));
+            $this->setStatus('error', $ex->getMessage(), $ex->getContext());
+            if ($ex->shouldStopValidation())
+            {
+                throw new Exceptions\StopFieldValidationException();
+            }
+        } catch( \InvalidArgumentException $e)
+        {
+            $hasError = true;
+            $this->setValue(new NotSetField($value));
+            $this->setStatus('error', $e->getMessage());
+            throw new Exceptions\StopFieldValidationException();
+        }
+        return $value;
+    }
+    
     public function validate($value)
     {
         $this->reset();
@@ -153,35 +197,7 @@ class FormField
         {
             foreach ($this->validators as $validator)
             {
-                try
-                {
-                    $value = $validator->validate($this->getName(), $value);
-                    $this->setValue($value);
-                    $this->setStatus('success');
-                } catch (Exceptions\WarningException $ex)
-                {
-                    $this->setValue($value);
-                    $this->setStatus('warning', $ex->getMessage());
-                    if ($ex->shouldStopValidation())
-                    {
-                        throw new Exceptions\StopFieldValidationException();
-                    }
-                } catch (Exceptions\ErrorException $ex)
-                {
-                    $hasError = true;
-                    $this->setValue(new NotSetField($value));
-                    $this->setStatus('error', $ex->getMessage());
-                    if ($ex->shouldStopValidation())
-                    {
-                        throw new Exceptions\StopFieldValidationException();
-                    }
-                } catch( \InvalidArgumentException $e)
-                {
-                    $hasError = true;
-                    $this->setValue(new NotSetField($value));
-                    $this->setStatus('error', $e->getMessage());
-                    throw new Exceptions\StopFieldValidationException();
-                }
+                $value = $this->validateWith($value, $validator);
             }
         } catch (Exceptions\StopFieldValidationException $ex)
         {
@@ -191,4 +207,8 @@ class FormField
         return !$hasError;
     }
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
 }
