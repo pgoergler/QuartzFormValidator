@@ -28,6 +28,11 @@ class BooleanValidator extends StringValidator
 
         return new \Quartz\Component\FormValidator\NotSetField($value);
     }
+    
+    public function boolval($value)
+    {
+        return (bool) $value;
+    }
 
     public function checkValue(\Quartz\Component\FormValidator\FormField $field, $value)
     {
@@ -41,7 +46,7 @@ class BooleanValidator extends StringValidator
             return $value;
         }
 
-        return boolval($value);
+        return $this->boolval($value);
     }
 
 }
