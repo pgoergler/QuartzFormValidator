@@ -365,21 +365,44 @@ class FormValidator
         foreach ($this->fields as $fieldName => $field)
         {
             $value = array_key_exists($fieldName, $form) ? $form[$fieldName] : $field->getDefaultValue();
-            $field->validate($value);
-            if ($field->hasError())
-            {
-                $this->hasError = true;
-            }
-            if ($field->hasWarning())
-            {
-                $this->hasWarning = true;
-            }
-            if ($field->hasFeedback())
-            {
-                $this->hasFeedback = true;
-            }
+            $this->validateField($fieldName, $value);
         }
         return $this;
+    }
+
+    public function validateField($fieldName, $value, \Quartz\Component\FormValidator\Validators\AbstractFormFieldValidator $validator = null)
+    {
+        $field = $this->getField($fieldName);
+        if (!$field)
+        {
+            throw new \Exception('field [' . $fieldName . ']not found');
+        }
+
+        try
+        {
+            if (is_null($validator))
+            {
+                $field->validate($value);
+            } else
+            {
+                $field->validateWith($value, $validator);
+            }
+        } catch (Exceptions\StopFieldValidationException $ex)
+        {
+            
+        }
+        if ($field->hasError())
+        {
+            $this->hasError = true;
+        }
+        if ($field->hasWarning())
+        {
+            $this->hasWarning = true;
+        }
+        if ($field->hasFeedback())
+        {
+            $this->hasFeedback = true;
+        }
     }
 
     /**
@@ -391,7 +414,7 @@ class FormValidator
     {
         foreach ($this->fields as $fieldName => $field)
         {
-            if( $entity->has($fieldName) )
+            if ($entity->has($fieldName))
             {
                 $getter = $entity->getGetter($fieldName);
                 $value = $entity->$getter();
@@ -415,7 +438,7 @@ class FormValidator
             {
                 try
                 {
-                    if( $object->has($fieldName) )
+                    if ($object->has($fieldName))
                     {
                         $getter = $object->getGetter($fieldName);
                         $setter = $object->getSetter($fieldName);
