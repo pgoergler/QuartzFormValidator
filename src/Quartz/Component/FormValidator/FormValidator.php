@@ -438,10 +438,11 @@ class FormValidator
             {
                 try
                 {
-                    if ($object->has($fieldName))
+                    $getter = $object->getGetter($fieldName);
+                    $setter = $object->getSetter($fieldName);
+                    
+                    if((method_exists($object, $getter) && method_exists($object, $setter)) || $object->has($fieldName))
                     {
-                        $getter = $object->getGetter($fieldName);
-                        $setter = $object->getSetter($fieldName);
                         $object->$setter($field->getValue());
                         $field->setValue($object->$getter());
                     }
