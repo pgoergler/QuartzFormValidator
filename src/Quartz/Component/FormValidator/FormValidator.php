@@ -414,9 +414,14 @@ class FormValidator
     {
         foreach ($this->fields as $fieldName => $field)
         {
+            $getter = $entity->getGetter($fieldName);
             if ($entity->has($fieldName))
             {
-                $getter = $entity->getGetter($fieldName);
+                $value = $entity->$getter();
+                $field->setValue($value);
+            }
+            elseif(method_exists($entity, $getter))
+            {
                 $value = $entity->$getter();
                 $field->setValue($value);
             }
