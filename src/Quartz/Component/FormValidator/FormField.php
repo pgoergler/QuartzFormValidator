@@ -34,6 +34,7 @@ class FormField
 
     public function reset()
     {
+        $this->setValue($this->defaultValue);
         $this->errors = array();
         $this->warnings = array();
         $this->status = 'success';

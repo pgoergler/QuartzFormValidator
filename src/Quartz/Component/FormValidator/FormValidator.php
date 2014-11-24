@@ -41,6 +41,21 @@ class FormValidator
     {
         return $this->object;
     }
+    
+    public function reset()
+    {
+        $this->object = null;
+        $this->hasFeedback = false;
+        $this->hasError = false;
+        $this->hasWarning = false;
+        $this->changes = null;
+        
+        foreach($this->fields as $field)
+        {
+            $field->reset();
+        }
+        return $this;
+    }
 
     /**
      * 
