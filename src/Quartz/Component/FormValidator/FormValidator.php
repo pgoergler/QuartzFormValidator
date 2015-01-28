@@ -27,10 +27,12 @@ class FormValidator
     protected $hasError = false;
     protected $hasWarning = false;
     protected $changes = null;
+    protected $parameters = array();
 
-    public function __construct(\Quartz\Object\Table &$table = null)
+    public function __construct(\Quartz\Object\Table &$table = null, $parameters = array())
     {
         $this->table = $table;
+        $this->parameters = $parameters;
     }
 
     /**
@@ -40,6 +42,43 @@ class FormValidator
     public function getObject()
     {
         return $this->object;
+    }
+    
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
+     * 
+     * @param String $parameters
+     * @return \Quartz\Component\FormValidator\FormValidator
+     */
+    public function setParameters($parameters)
+    {
+        $this->parameters = $parameters;
+        return $this;
+    }
+    
+    public function getParameter($parameter, $defaultValue = null)
+    {
+        if( !array_key_exists($parameter, $this->parameters) )
+        {
+            return $defaultValue;
+        }
+        return $this->parameters[$parameter];
+    }
+    
+    /**
+     * 
+     * @param String $parameter
+     * @param mixed $value
+     * @return \Quartz\Component\FormValidator\FormValidator
+     */
+    public function setParameter($parameter, $value)
+    {
+        $this->parameters[$parameter] = $value;
+        return $this;
     }
     
     public function reset()
@@ -433,12 +472,12 @@ class FormValidator
             if ($entity->has($fieldName))
             {
                 $value = $entity->$getter();
-                $field->setValue($value);
+                $field->initialize($value);
             }
             elseif(method_exists($entity, $getter))
             {
                 $value = $entity->$getter();
-                $field->setValue($value);
+                $field->initialize($value);
             }
         }
         return $this;
