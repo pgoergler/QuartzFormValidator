@@ -45,9 +45,31 @@ class FormField
         return $this->name;
     }
 
+    /**
+     * 
+     * @param type $validators
+     * @return \Quartz\Component\FormValidator\FormField
+     */
+    public function setValidators(array $validators)
+    {
+        $this->validators = $validators;
+        return $this;
+    }
+    
     public function getValidators()
     {
         return $this->validators;
+    }
+    
+    /**
+     * 
+     * @param \Quartz\Component\FormValidator\Validators\AbstractFormFieldValidator $validator
+     * @return \Quartz\Component\FormValidator\FormField
+     */
+    public function pushValidator(Validators\AbstractFormFieldValidator $validator)
+    {
+        array_push($this->validators, $validator);
+        return $this;
     }
 
     public function hasSuccess()
