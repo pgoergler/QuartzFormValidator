@@ -461,6 +461,23 @@ class FormValidator
 
     /**
      * 
+     * @param array $entity
+     * @return \Quartz\Component\FormValidator\FormValidator
+     */
+    public function initializeWithArray(array $entity)
+    {
+        foreach ($this->fields as $fieldName => $field)
+        {
+            if (array_key_exists($fieldName, $entity))
+            {
+                $field->initialize($entity[$fieldName]);
+            }
+        }
+        return $this;
+    }
+    
+    /**
+     * 
      * @param \Quartz\Object\Entity $entity
      * @return \Quartz\Component\FormValidator\FormValidator
      */
