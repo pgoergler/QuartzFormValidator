@@ -424,9 +424,26 @@ class FormValidator
         return $this;
     }
 
-    public function validateField($fieldName, $value, \Quartz\Component\FormValidator\Validators\AbstractFormFieldValidator $validator = null)
+    public function validateFieldWithForm($fieldName, array $form, \Quartz\Component\FormValidator\Validators\AbstractFormFieldValidator $validator = null)
     {
         $field = $this->getField($fieldName);
+        $value = array_key_exists($fieldName, $form) ? $form[$fieldName] : $field->getDefaultValue();
+        \Logging\LoggersManager::getInstance()->get()->debug("{0} = {1} in {2}", array($fieldName, $value, $form));
+        return $this->validateField($field, $value, $validator);
+    }
+    
+    public function validateField($fieldName, $value, \Quartz\Component\FormValidator\Validators\AbstractFormFieldValidator $validator = null)
+    {
+        if( $fieldName instanceof FormField )
+        {
+            $field = $fieldName;
+            $fieldName = $field->getName();
+        }
+        else
+        {
+            $field = $this->getField($fieldName);
+        }
+        
         if (!$field)
         {
             throw new \Exception('field [' . $fieldName . ']not found');
