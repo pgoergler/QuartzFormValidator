@@ -3,11 +3,11 @@
 namespace Quartz\Component\FormValidator\Validators;
 
 /**
- * Description of IdenticalValidator
+ * Description of EqualValidator
  *
  * @author paul
  */
-class IdenticalValidator extends AbstractFormFieldValidator
+class EqualValidator extends AbstractFormFieldValidator
 {
 
     protected $value;
